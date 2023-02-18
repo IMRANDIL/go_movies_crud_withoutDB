@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"log"
 	"net/http"
@@ -27,7 +28,10 @@ type Director struct {
 var movies []Movie
 
 
-
+func getMovies(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type","application/json")
+	json.NewEncoder(w).Encode(movies)
+}
 
 
 func main() {
@@ -43,11 +47,22 @@ func main() {
 		},
 	})
 
+
+	movies = append(movies, Movie{
+		ID: "2",
+		Isbn: "543",
+		Title: "Love",
+		Director: &Director{
+			FirstName: "Lokesh",
+			LastName: "Sharma",
+		},
+	})
+
 	r.HandleFunc("/movies",getMovies).Methods("GET")
-	r.HandleFunc("/movie/{id}",getMovie).Methods("GET")
-	r.HandleFunc("/movies",createMovie).Methods("POST")
-	r.HandleFunc("/movie/{id}",updateMovie).Methods("PUT")
-	r.HandleFunc("/movie/{id}",deleteMovie).Methods("DELETE")
+	// r.HandleFunc("/movie/{id}",getMovie).Methods("GET")
+	// r.HandleFunc("/movies",createMovie).Methods("POST")
+	// r.HandleFunc("/movie/{id}",updateMovie).Methods("PUT")
+	// r.HandleFunc("/movie/{id}",deleteMovie).Methods("DELETE")
 
 	fmt.Printf("starting the server at port :8000")
 
