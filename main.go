@@ -74,6 +74,15 @@ func createMovie(w http.ResponseWriter, r *http.Request) {
 
 }
 
+func updateMovie (w http.ResponseWriter, r *http.Request) {
+	params := mux.Vars(r)
+	for index, item := range movies {
+		if item.ID == params["id"] {
+			
+		}
+	}
+}
+
 func main() {
 	r := mux.NewRouter()
 
