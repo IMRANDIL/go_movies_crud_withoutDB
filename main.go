@@ -1,6 +1,12 @@
 package main
 
-import "github.com/gorilla/mux"
+import (
+	"fmt"
+	"log"
+	"net/http"
+
+	"github.com/gorilla/mux"
+)
 
 
 
@@ -32,4 +38,12 @@ func main() {
 	r.HandleFunc("/movies",createMovie).Methods("POST")
 	r.HandleFunc("/movie/{id}",updateMovie).Methods("PUT")
 	r.HandleFunc("/movie/{id}",deleteMovie).Methods("DELETE")
+
+	fmt.Printf("starting the server at port :8000")
+
+	err := http.ListenAndServe(":8000",nil)
+
+	if err !=nil {
+		log.Fatal(err)
+	}
 }
